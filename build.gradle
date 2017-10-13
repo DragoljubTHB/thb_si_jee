@@ -1,7 +1,7 @@
 apply plugin: 'war'
 apply plugin: 'maven'
 
-group = 'de.thb'
+group = 'org.dado'
 version = '0.0.1-SNAPSHOT'
 
 description = """Standalone Project JEE7"""
@@ -9,12 +9,31 @@ description = """Standalone Project JEE7"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+def tomcatVersion = '8.0.42'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.3'
+    }
+}
 
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
+    mavenLocal()
+    mavenCentral()
 }
+
+apply plugin: 'com.bmuschko.tomcat'
+
 
 dependencies {
     providedCompile group: 'javax', name: 'javaee-api', version:'7.0'
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }

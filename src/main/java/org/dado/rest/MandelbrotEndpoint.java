@@ -15,21 +15,20 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@Path("Mandelbrot/getMandelbrot")
+@Path("/mandels")
 public class MandelbrotEndpoint {
     @Inject
     MandelbrotRepo repo;
 
     @GET
-    @Produces("image/png")
-    public Object getMandelbrot(){
-        return Response.ok().entity(new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
+    @Path("one")
+    @Produces({"image/png"})
+    public Response getMandelbrot(){
+        System.out.println("GET");
+        return Response.ok().entity((StreamingOutput) output -> {
 
-                output.write(repo.create());
-                output.flush();
-            }
+            output.write(repo.create());
+            output.flush();
         }).build();
     }
 /*
